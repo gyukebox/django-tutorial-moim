@@ -17,94 +17,30 @@
       </div>
       <br>
       <br>
-
+    
     </div>
   </div>
-
+  
   <div class="container">
     <div class="section">
-
+      
       <h2 class="header center blue-text">개최된 모임들</h2>
 
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h5 class="center">모임 1</h5>
-
-            <p class="light">모임 1 커버 이미지</p>
+      {% for row in meetups %}
+        {% if row|length > 0 %}
+          <div class="row">
+            {% for meetup in row %}
+              <div class="col s12 m4">
+                <div class="icon-block">
+                  <a href="/moim/{{ meetup.id }}"><h5 class="center">{{ meetup.name }}</h5></a>
+                  <p class="center">{{ meetup.about }}</p>
+                  <img src="/{{ meetup.image_path }}" alt="{{ meetup.image_path }}" width="250px"/>
+                </div>
+              </div>
+            {% endfor %}
           </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h5 class="center">모임 2</h5>
-
-            <p class="light">모임 2 커버 이미지</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h5 class="center">모임 3</h5>
-
-            <p class="light">모임 3 커버 이미지</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h5 class="center">모임 4</h5>
-
-            <p class="light">모임 4 커버 이미지</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h5 class="center">모임 5</h5>
-
-            <p class="light">모임 5 커버 이미지</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h5 class="center">모임 6</h5>
-
-            <p class="light">모임 6 커버 이미지</p>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h5 class="center">모임 7</h5>
-
-            <p class="light">모임 7 커버 이미지</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h5 class="center">모임 8</h5>
-
-            <p class="light">모임 8 커버 이미지</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h5 class="center">모임 9</h5>
-
-            <p class="light">모임 9 커버 이미지</p>
-          </div>
-        </div>
-      </div>
+        {% endif %}
+      {% endfor %}
 
       <br>
       <br>

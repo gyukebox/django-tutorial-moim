@@ -104,8 +104,10 @@ ENV/
 .idea/
 .vscode/
 
-# database migrations
+# database migrations & configurations
+config.txt
 migrations/
 
 # static files
 fonts/
+images/
