@@ -7,6 +7,8 @@ class UserModel(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField()
     password = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=13)
     age = models.PositiveSmallIntegerField()
     gender = models.CharField(max_length=1, default='M')
+
+    def __str__(self):
+        return self.name

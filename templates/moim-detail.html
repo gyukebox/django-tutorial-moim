@@ -11,7 +11,7 @@
 
       <h1 class="header center blue-text">{{ title }}</h1>
 
-      <h4 class="header center blue-text">{{ created_by }} 주최</h4>
+      <h4 class="header center blue-text">{{ created_by }} 주최, {{ starts_at }} 시</h4>
 
       <div class="row center">
         <h5 class="header col s12 light">{{ summary }}</h5>
@@ -22,13 +22,16 @@
       </div>
       <h3 class="header center blue-text">{{ attendees|length }}/{{ max_attendee }} 참여중</h3>
       <p class="center">
-        {% for person in attendes %}
-          {{ person.name }}
+        참가자 :
+        {% for person in attendees %}
+          {{ person }},
         {% endfor %}
       </p>
       <div class="row center">
         <a href="#" id="download-button"
            class="btn-large waves-effect waves-light light-blue darken-4">참여하기!</a>
+        <a href="#" id="download-button"
+           class="btn-large waves-effect waves-light light-blue darken-4">돌아가기</a>
       </div>
       <br>
       <br>

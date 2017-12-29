@@ -6,7 +6,7 @@ from moim.models import MoimModel
 
 class IndexView(View):
     def get(self, request):
-        opened_meetups_models = MoimModel.objects.all()[:9]
+        opened_meetups_models = MoimModel.objects.all().order_by('-id')[:9]
         num_meetups = len(opened_meetups_models)
         opened_meetups = {
             'meetups': list()
@@ -47,7 +47,7 @@ class MoimDetailView(View):
             'created_by': moim_model.creator.name,
             'starts_at': moim_model.starts_at,
             'max_attendee': moim_model.max_attendee,
-            'attendees': moim_model.attendees,
+            'attendees': [person.name for person in moim_model.attendees.all()],
             'summary': moim_model.summary,
             'description': moim_model.description,
             'image_path': str(moim_model.image)
