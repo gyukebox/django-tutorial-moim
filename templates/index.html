@@ -46,10 +46,21 @@
       <br>
 
       <div class="row center">
-        <a href="#" id="download-button"
+        {% if previous %}
+          <a href="/{{ previous }}" id="download-button"
            class="btn-large waves-effect waves-light light-blue darken-4">이전</a>
-        <a href="#" id="download-button"
+        {% else %}
+          <a href="#" id="download-button"
+           class="btn-large disabled">이전</a>
+        {% endif %}
+
+        {% if next %}
+          <a href="/{{ next }}" id="download-button"
            class="btn-large waves-effect waves-light light-blue darken-4">다음</a>
+        {% else %}
+          <a href="/{{ next }}" id="download-button"
+           class="btn-large disabled">다음</a>
+        {% endif %}
       </div>
     </div>
 

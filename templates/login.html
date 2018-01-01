@@ -7,7 +7,9 @@
     <form action="/users/login/" method="post">
       {% csrf_token %}
       {{ form }}
-      <input type="submit" value="로그인">
+      <button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action">로그인
+        <i class="material-icons right">send</i>
+      </button>
     </form>
   </div>
 {% endblock content %}

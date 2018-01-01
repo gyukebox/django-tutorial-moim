@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'moim.apps.MoimConfig',
-    'user.apps.UserConfig',
+    'moim',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -80,11 +80,11 @@ WSGI_APPLICATION = 'django_tutorial_moim.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'YOUR_DATABASE_NAME',
-        'USER': 'USERNAME',
-        'PASSWORD': 'PASSWORD',
-        'HOST': 'HOST ADDRESS',
-        'PORT': 'PORT NUMBER',
+        'NAME': 'moim_db',
+        'USER': 'root',
+        'PASSWORD': 'biss9541',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 

@@ -5,6 +5,7 @@ from moim.views import IndexView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view()),
+    path('<int:page_num>/', IndexView.as_view()),
     path('users/', include('user.urls')),
     path('moim/', include('moim.urls')),
 ]

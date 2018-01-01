@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="{% static 'materialize/css/materialize.min.css' %}" type="text/css" rel="stylesheet"
           media="screen,projection"/>
-    <link href="{% static 'materialize/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
   </head>
 
   <body>
@@ -19,33 +18,39 @@
       <div class="nav-wrapper container">
         <a id="logo-container" href="/" class="brand-logo">Moim</a>
         <ul class="right hide-on-med-and-down">
-          <li>
-            <a href="/">홈</a>
-          </li>
-          <li>
-            <a href="/moim">모임 만들기</a>
-          </li>
-          <li>
-            <a href="/users/login">로그인</a>
-          </li>
-          <li>
-            <a href="/users/register">회원가입</a>
-          </li>
+          {% if current_user %}
+            <li>
+              <a>Hello, {{ current_user }}</a>
+            </li>
+            <li>
+              <a href="/users/logout">로그아웃</a>
+            </li>
+          {% else %}
+            <li>
+              <a href="/users/login">로그인</a>
+            </li>
+            <li>
+              <a href="/users/register">회원가입</a>
+            </li>
+          {% endif %}
         </ul>
 
         <ul id="nav-mobile" class="side-nav">
-          <li>
-            <a href="/">홈</a>
-          </li>
-          <li>
-            <a href="/moim">모임 만들기</a>
-          </li>
-          <li>
-            <a href="/users/login">로그인</a>
-          </li>
-          <li>
-            <a href="/users/register">회원가입</a>
-          </li>
+          {% if current_user %}
+            <li>
+              <a>Hello, {{ current_user }}</a>
+            </li>
+            <li>
+              <a href="/users/logout">로그아웃</a>
+            </li>
+          {% else %}
+            <li>
+              <a href="/users/login">로그인</a>
+            </li>
+            <li>
+              <a href="/users/register">회원가입</a>
+            </li>
+          {% endif %}
         </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse">
           <i class="material-icons">menu</i>
@@ -90,7 +95,6 @@
     <!--  Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'materialize/js/materialize.min.js' %}"></script>
-    <script src="{% static 'materialize/js/init.js' %}"></script>
 
   </body>
 
