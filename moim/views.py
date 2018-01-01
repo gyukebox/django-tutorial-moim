@@ -5,12 +5,24 @@ from moim.models import MoimModel
 
 
 class IndexView(View):
-    def get(self, request):
-        opened_meetups_models = MoimModel.objects.all().order_by('-id')[:9]
+    def get(self, request, page_num=1):
+        context = dict()
+
+        if 'logged-in' in request.session:
+            if request.session['logged-in'] is True:
+                context['current_user'] = request.session['logged-in-user']
+        else:
+            request.session['logged-in'] = False
+            request.session['logged-in-user'] = None
+
+        context['meetups'] = list()
+
+        if 'total-meetups' not in request.session:
+            request.session['total-meetups'] = len(MoimModel.objects.all())
+
+        opened_meetups_models = MoimModel.objects.all().order_by(
+            '-id')[(page_num - 1) * 9:page_num * 9]
         num_meetups = len(opened_meetups_models)
-        opened_meetups = {
-            'meetups': list()
-        }
 
         for i in range(3):
             row = list()
@@ -25,9 +37,14 @@ class IndexView(View):
                     'image_path': str(opened_meetups_models[index].image)
                 }
                 row.append(meetup_info)
-            opened_meetups['meetups'].append(row)
+            context['meetups'].append(row)
 
-        return render(request, template_name="index.html", context=opened_meetups)
+        if page_num > 1:
+            context['previous'] = page_num - 1
+        if page_num * 9 < request.session['total-meetups']:
+            context['next'] = page_num + 1
+
+        return render(request, template_name="index.html", context=context)
 
 
 class MoimView(View):
@@ -52,7 +69,6 @@ class MoimDetailView(View):
             'description': moim_model.description,
             'image_path': str(moim_model.image)
         }
-        print(moim_detail)
         return render(request, template_name='moim-detail.html', context=moim_detail)
 
     def put(self, request):

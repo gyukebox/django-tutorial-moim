@@ -17,12 +17,21 @@ class UserLoginView(View):
         else:
             input_data = form.cleaned_data
             try:
-                UserModel.objects.filter(email=input_data['email']).filter(
+                model = UserModel.objects.filter(email=input_data['email']).filter(
                     password=input_data['password']).get()
             except (UserModel.DoesNotExist, UserModel.MultipleObjectsReturned):
                 return HttpResponse(render(request, 'login.html', {'form': form}), status=400)
 
+            request.session['logged-in'] = True
+            request.session['logged-in-user'] = model.name
             return HttpResponseRedirect('/')
+
+
+class UserLogoutView(View):
+    def get(self, request):
+        request.session['logged-in'] = False
+        request.session['logged-in-user'] = None
+        return HttpResponseRedirect('/')
 
 
 class UserRegisterView(View):
@@ -31,7 +40,16 @@ class UserRegisterView(View):
         return render(request, template_name='register.html', context={'form': form})
 
     def post(self, request):
-        form = LoginForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid() is False:
             return HttpResponse(render(request, template_name='register.html', context={'form': form}), status=400)
-        return HttpResponse('Not Implemented!')
+
+        data = form.cleaned_data
+        print(data)
+
+        new_model = UserModel(name=data['name'], email=data['email'],
+                              password=data['password'], age=data['age'], gender=data['gender'])
+        new_model.save()
+        request.session['logged-in'] = True
+        request.session['logged-in-user'] = new_model.name
+        return HttpResponseRedirect('/')
