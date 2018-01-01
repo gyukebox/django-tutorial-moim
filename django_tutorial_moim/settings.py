@@ -77,17 +77,6 @@ WSGI_APPLICATION = 'django_tutorial_moim.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'moim_db',
-        'USER': 'root',
-        'PASSWORD': 'biss9541',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    }
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
