@@ -1,6 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
+from moim.forms import MoimForm
 from moim.models import MoimModel
 
 
@@ -49,9 +50,19 @@ class IndexView(View):
 
 class MoimView(View):
     def get(self, request):
-        return HttpResponse('Not Implemented!')
+        if 'logged-in' not in request.session:
+            return HttpResponseRedirect('/users/login')
+        elif request.session['logged-in'] is False:
+            return HttpResponseRedirect('/users/login')
+
+        form = MoimForm()
+        return render(request, template_name='moim-create.html', context={'form': form})
 
     def post(self, request):
+        form = MoimForm(request.POST)
+        if form.is_valid() is False:
+            return HttpResponse(render(request, template_name='moim-create.html', context={'form': form}), status=400)
+        # TODO save moim model
         return HttpResponse('Not Implemented!')
 
 

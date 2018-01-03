@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 
-{% block title %}회원가입{% endblock title %}
+{% block title %}모임 만들기{% endblock %}
 
 {% block content %}
   <div class="container">
-    <form action="/users/register/" method="post">
+    <form class="col s12" action="/moim" method="post">
       {% csrf_token %}
       {{ form }}
-      <button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action">회원가입
+      <button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action">만들기!
         <i class="material-icons right">send</i>
       </button>
     </form>
