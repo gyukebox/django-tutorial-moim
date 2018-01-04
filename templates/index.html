@@ -34,7 +34,7 @@
                 <div class="icon-block">
                   <a href="/moim/{{ meetup.id }}"><h5 class="center">{{ meetup.name }}</h5></a>
                   <p class="center">{{ meetup.about }}</p>
-                  <img src="/{{ meetup.image_path }}" alt="{{ meetup.image_path }}" width="250px"/>
+                  <img class="responsive-img" src="/{{ meetup.image_path }}" alt="{{ meetup.image_path }}" />
                 </div>
               </div>
             {% endfor %}

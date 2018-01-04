@@ -4,7 +4,7 @@
 
 {% block content %}
   <div class="container">
-    <form class="col s12" action="/moim" method="post">
+    <form class="col s12" action="/moim/" method="post">
       {% csrf_token %}
       {{ form }}
       <button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action">만들기!
