@@ -11,6 +11,8 @@ class UserLoginView(View):
         return render(request, template_name='login.html', context={'form': form})
 
     def post(self, request):
+        print(request.POST)
+
         form = LoginForm(request.POST)
         if form.is_valid() is False:
             return HttpResponse(render(request, 'login.html', {'form': form}), status=400)

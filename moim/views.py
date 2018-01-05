@@ -1,8 +1,10 @@
+from django.db.utils import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from moim.forms import MoimForm
 from moim.models import MoimModel
+from user.models import UserModel
 
 
 class IndexView(View):
@@ -56,20 +58,44 @@ class MoimView(View):
             return HttpResponseRedirect('/users/login')
 
         form = MoimForm()
-        return render(request, template_name='moim-create.html', context={'form': form})
+
+        context = {
+            'current_user': request.session['logged-in-user'],
+            'form': form
+        }
+
+        return render(request, template_name='moim-create.html', context=context)
 
     def post(self, request):
         form = MoimForm(request.POST)
+
+        context = {
+            'current_user': request.session['logged-in-user'],
+            'form': form
+        }
+
+        print(form.data)
+
         if form.is_valid() is False:
-            return HttpResponse(render(request, template_name='moim-create.html', context={'form': form}), status=400)
-        # TODO save moim model
-        return HttpResponse('Not Implemented!')
+            return HttpResponse(render(request, template_name='moim-create.html', context=context), status=400)
+
+        data = form.cleaned_data
+        new_model = MoimModel(title=data['title'], starts_at=data['starts_at'], max_attendee=data['max_attendee'],
+                          summary=data['summary'], description=data['description'], image=data['image'])
+        new_model.creator = UserModel.objects.get(name=request.session['logged-in-user'])
+
+        try:
+            new_model.save()
+        except IntegrityError:
+            return HttpResponse(render(request, template_name='moim-create.html', context=context), status=400)
+
+        return HttpResponseRedirect('/moim/{}'.format(new_model.id), status=201)
 
 
 class MoimDetailView(View):
     def get(self, request, moim_id):
         moim_model = MoimModel.objects.get(id=moim_id)
-        moim_detail = {
+        context = {
             'id': moim_model.id,
             'title': moim_model.title,
             'created_by': moim_model.creator.name,
@@ -80,10 +106,35 @@ class MoimDetailView(View):
             'description': moim_model.description,
             'image_path': str(moim_model.image)
         }
-        return render(request, template_name='moim-detail.html', context=moim_detail)
+
+        if 'logged-in' in request.session:
+            if request.session['logged-in'] is True:
+                context['current_user'] = request.session['logged-in-user']
+
+        return render(request, template_name='moim-detail.html', context=context)
 
     def put(self, request):
         return HttpResponse('Not Implemented!')
 
     def delete(self, request):
         return HttpResponse('Not Implemented!')
+
+
+class MoimApplyView(View):
+    def get(self, request, moim_id):
+        if 'logged-in' not in request.session:
+            return HttpResponseRedirect('/user/login')
+        elif request.session['logged-in'] is False:
+            return HttpResponseRedirect('/user/login')
+
+        moim = MoimModel.objects.get(id=moim_id)
+        print(moim)
+        user = UserModel.objects.get(name=request.session['logged-in-user'])
+        print(user)
+
+        # TODO generate template for success
+        if len(moim.attendees.all()) == moim.max_attendee - 1:
+            pass
+        else:
+            moim.attendees.add(user)
+            return HttpResponseRedirect('/')

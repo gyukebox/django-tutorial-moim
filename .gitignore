@@ -111,3 +111,6 @@ migrations/
 # static files
 fonts/
 images/
+
+# javascript libraries
+node_modules/
