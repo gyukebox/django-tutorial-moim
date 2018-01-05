@@ -118,3 +118,23 @@ class MoimDetailView(View):
 
     def delete(self, request):
         return HttpResponse('Not Implemented!')
+
+
+class MoimApplyView(View):
+    def get(self, request, moim_id):
+        if 'logged-in' not in request.session:
+            return HttpResponseRedirect('/user/login')
+        elif request.session['logged-in'] is False:
+            return HttpResponseRedirect('/user/login')
+
+        moim = MoimModel.objects.get(id=moim_id)
+        print(moim)
+        user = UserModel.objects.get(name=request.session['logged-in-user'])
+        print(user)
+
+        # TODO generate template for success
+        if len(moim.attendees.all()) == moim.max_attendee - 1:
+            pass
+        else:
+            moim.attendees.add(user)
+            return HttpResponseRedirect('/')
