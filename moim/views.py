@@ -132,9 +132,9 @@ class MoimApplyView(View):
         user = UserModel.objects.get(name=request.session['logged-in-user'])
         print(user)
 
-        # TODO generate template for success
         if len(moim.attendees.all()) == moim.max_attendee - 1:
-            pass
+            return HttpResponseRedirect('/', status=400)
         else:
             moim.attendees.add(user)
-            return HttpResponseRedirect('/')
+            moim.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
